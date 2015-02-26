@@ -1,0 +1,202 @@
+<?php
+
+require_once "../diy_ini.php";
+
+
+$sql_site = mysql_query("select * from diy_site");
+$row_site = mysql_fetch_array($sql_site);
+
+
+mb_language("japanese");
+mb_internal_encoding("EUC-JP");
+
+//----main----
+
+$syurui = $_POST['syurui'];
+if($syurui == ""){$check++;}
+$name01 = $_POST['name01'];
+if($name01 == ""){$check++;}
+$mail01 = $_POST['mail01'];
+if($mail01 == ""){$check++;}
+$sita = $_POST['sita'];
+
+//------send-------------
+
+//------リファラーチェック----------
+$ref = $_SERVER["HTTP_REFERER"];
+ if(ereg("check.php", $ref)){#リファラーの中にcheck.phpがあったとき
+
+//------フォーム記入チェック--------
+if($check == ""){
+
+
+$mail_to = $mail01;
+$mail_re = "contact@tunk.jp";
+$mail_re02 =$row_site["mailadress"];
+
+$subject = "【".$row_site["shop_name"]."】お問合わせ：" . $mail01 . "\n";
+$body = "　\n";
+$body .= "※下記のお問合わせ内容を送信されましたのでご確認ください。\n".
+		"\n".
+		"-----------------------------------------------------------------------\n".
+		"【お名前】：" . $name01 . " 様 \n\n".
+		"【メールアドレス】：" . $mail01 . "\n\n".
+		"【お問合わせの種類】：" . $syurui . "  \n\n".
+		
+		"▼お問合わせ内容\n\n" . $sita . "\n\n".
+		"=======================================================================\n\n".
+		"お問合わせ内容を確認の上、担当者より数日以内にご連絡いたします。\n\n".
+		"DOWNLOAD WEBSHOP SYSTEM「DIY STARS」\n".
+		"http://diy.tunk.jp　contact@tunk.jp\n";
+mb_send_mail($mail_to,$subject,$body,"From: diystars@tunk.jp\r\n"."Reply-To: diystars@tunk.jp\r\n");
+mb_send_mail($mail_re,$subject,$body,"From: diystars@tunk.jp\r\n"."Reply-To: diystars@tunk.jp\r\n");
+mb_send_mail($mail_re02,$subject,$body,"From: diystars@tunk.jp\r\n"."Reply-To: diystars@tunk.jp\r\n");
+
+ }}
+?>
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8" />
+
+	<title>visual and echo japan</title>
+    <meta name="description" content="想像をカタチにするWEB、映像の制作会社" />
+    <meta name="keywords" content="池田,松永,木村,宮沢,大滝,五十嵐,三園,藤原,清宮,小松本,web,design,デザイン,flash,制作,映像,神泉,渋谷" />
+    <meta name="author" content="visual and echo japan" />
+    <meta name="copyright" content="Copyright (C) visual and echo japan" />
+    <link rel="shortcut icon" href="/favicon.ico" />
+	<link rel="alternate" href="/feed/index.xml" type="application/rss+xml" title="RSS 2.0" />
+
+	<link rel="stylesheet" href="./css/import.css" />
+    
+    <script src='http://ajax.googleapis.com/ajax/libs/jquery/1.3.2/jquery.min.js?ver=1.3.2' type='text/javascript'></script>
+
+    <!--[if lt IE 9]><script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+    <script src="./js/analytics.js"></script>
+    
+    <script type="text/javascript" src="./js/share.js" charset="utf-8"></script>
+    
+    <script language="javascript">
+	<!--
+	
+	//読み込み
+	function getPage(pageURL,target) {
+		if(document.getElementById(target).innerHTML == ""){
+			xmlhttp = createXMLHttp();
+			if (xmlhttp){
+				xmlhttp.onreadystatechange = function(){setPageData(target);};
+				xmlhttp.open('GET', pageURL);
+				xmlhttp.send(null);
+			}else{
+				alert("NO LOADING");
+			}
+		}else{
+			document.getElementById(target).innerHTML = "";
+		}
+	}
+	//読み込み成功時
+	function setPageData(target){
+		
+			if (xmlhttp.readyState == 4 && xmlhttp.status == 200){
+				//Spry.Effect.AppearFade("disp");
+				document.getElementById(target).innerHTML = xmlhttp.responseText;
+			}else{
+				//Spry.Effect.AppearFade('disp',{ duration: 1000, from: 0, to: 100, toggle: false});
+				document.getElementById(target).innerHTML = "NOW LOADING";
+			}
+		
+	}
+	
+	// XMLHttpsオブジェクト作成
+	function createXMLHttp(){
+		try {
+			return new ActiveXObject("Microsoft.XMLHTTP");
+		}catch(e){
+			try {
+				return new XMLHttpRequest();
+			}catch(e) {
+				return null;
+			}
+		}
+		return null;
+	}
+	// -->
+    </script>
+    
+	<!--SPRY-->
+    <script type="text/javascript" src="./includes/SpryData.js"></script> 
+	<script type="text/javascript" src="./includes/SpryHTMLDataSet.js"></script> 
+    <script type="text/javascript" src="./includes/SpryEffects.js"></script>
+
+    <script type="text/javascript"> 
+		var HtmlData = new Spry.Data.HTMLDataSet("1.html", "page");
+    </script>
+    
+    <!--FeedIn-->
+    <script type="text/javascript">
+			$(document).ready(function() {
+				$('#page').fadeIn("slow");
+			});
+    </script>
+</head>
+<body id="siteID" class="topBody">
+<div id="page">
+
+<!--■■■BEGIN：globalHeader■■■-->
+<header id="globalHeader">
+
+<!-- / #globalHeader --></header>
+
+<!--■■■BEGIN：globalFooter■■■-->
+<footer id="globalFooter">
+
+<h1><span>visual and echo japan</span></h1>
+
+
+<div class="chara_bg"></div>
+
+<p class="copyright"><img src="images/copyright.gif" alt="Copyright visual and echo japan. All Rights Reserved."></p>
+
+
+<!-- / #globalFooter --></footer>
+
+
+<!--■■■BEGIN：side■■■-->
+<div id="side">
+<p><a href="index.html"><img src="images/our.gif" alt="私たちが" /></a></p>
+
+<nav>
+<ul>
+<li><a href="index.html">HOME</a></li>
+<li><a href="/local">SITE INFO</a></li>
+</ul>
+</nav>
+
+<!-- / #side --></div>
+
+<!--■■■BEGIN：main■■■-->
+<div id="main">
+
+
+<div class="ContacMenu" id="contact"><h2>CONTACT</h2></div>
+
+
+<!--■■■BEGIN：contents■■■-->
+<div id="contents">
+<div class="contact">
+<strong>お問合わせ頂き、ありがとうございます。</strong><br>
+<br>
+お客様宛てにご確認メールを送信致しましたのでご確認下さい。 <br>
+なお、お問合わせ内容を確認の上、担当者より数日以内にご連絡いたします。 <br>
+<br>
+<a href="index.html">トップページに戻る</a></div>
+</div>
+
+
+
+<!-- / #main --></div>
+
+
+<!-- / #page --></div>
+</body>
+</html>
